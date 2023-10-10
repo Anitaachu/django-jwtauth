@@ -22,3 +22,14 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+class AuthUserAPIView(GenericAPIView):
+
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def get(self, request):
+        User = request.user
+        serializer = UserSerializer(User)
+        return response.Response({'user': serializer.data})
